@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xy.springbootvue.mapper.ProjecttaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xy.springbootvue.entity.Projecttask">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="dir" property="dir" />
+        <result column="zip_size" property="zip_size" />
+        <result column="upload_time" property="upload_time" />
+        <result column="check_start_time" property="check_start_time" />
+        <result column="check_end_time" property="check_end_time" />
+        <result column="language" property="language" />
+        <result column="type" property="type" />
+        <result column="state" property="state" />
+        <result column="vul_high" property="vul_high" />
+        <result column="vul_mid" property="vul_mid" />
+        <result column="vul_low" property="vul_low" />
+    </resultMap>
+
+</mapper>
