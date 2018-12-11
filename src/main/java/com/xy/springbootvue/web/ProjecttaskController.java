@@ -1,16 +1,12 @@
 package com.xy.springbootvue.web;
 
-
 import com.xy.springbootvue.entity.Projecttask;
 import com.xy.springbootvue.service.IProjecttaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
