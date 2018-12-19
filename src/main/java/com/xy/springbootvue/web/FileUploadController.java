@@ -1,8 +1,11 @@
 package com.xy.springbootvue.web;
 
+import com.xy.springbootvue.service.IProjecttaskService;
+import com.xy.springbootvue.task.ParseTask;
 import com.xy.springbootvue.util.ZipUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,9 @@ public class FileUploadController {
     @Value("${prop.upload-unzip-folder}")
     private String UPLOAD_UNZIP_FOLDER;
     private Logger logger = LoggerFactory.getLogger(FileUploadController.class);
+
+    @Autowired
+    private IProjecttaskService projecttaskService;
 
     @PostMapping("/singlefile")
     public Object singleFileUpload(MultipartFile file) {
@@ -69,8 +75,9 @@ public class FileUploadController {
             if(storeFileName.endsWith("zip")) {
                 ZipUtils.decompress(zipPath, unZipPath);
             }
-            code = "file upload success";
+            code = "file upload success!";
             logger.debug(code);
+            new Thread(new ParseTask(file.getOriginalFilename(),unZipPath,projecttaskService)).start();
         } catch (IOException e) {
             code = e.getMessage();
             logger.error(code);
