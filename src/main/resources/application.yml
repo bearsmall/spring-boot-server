@@ -8,7 +8,7 @@ prop:
 spring:
   servlet:
     multipart:
-      max-file-size: 1024000
+      max-file-size: 10240000
   aop:
     proxy-target-class: true
 
