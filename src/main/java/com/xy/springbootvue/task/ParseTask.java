@@ -3,12 +3,9 @@ package com.xy.springbootvue.task;
 import com.xy.springbootvue.entity.Projecttask;
 import com.xy.springbootvue.parser.maven.MavenParser;
 import com.xy.springbootvue.parser.maven.item.JavaDependency;
-import com.xy.springbootvue.parser.util.DirUtils;
 import com.xy.springbootvue.service.IProjecttaskService;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class ParseTask implements Runnable{
@@ -57,14 +54,9 @@ public class ParseTask implements Runnable{
         projecttask.setUpload_time(new Date());
         projecttask.setZip_size(1);
         projecttaskService.insert(projecttask);
-        List<String> paths = new DirUtils().filter(path,"pom.xml");
-        Set<JavaDependency> jds = new HashSet<>();
-        for(String p:paths) {
-            MavenParser mavenParser = new MavenParser();
-            mavenParser.parse(p);
-            Set<JavaDependency> jd = mavenParser.getJavaDependencySet();
-            jds.addAll(jd);
-        }
+        MavenParser mavenParser = new MavenParser();
+        mavenParser.parse(path);
+        Set<JavaDependency> jds = mavenParser.getJavaDependencySet();
         for(JavaDependency j:jds){
             System.out.println(j.getGroupId()+"/"+j.getArtifactId()+"/"+j.getVersion());
         }
