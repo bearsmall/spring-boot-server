@@ -2,6 +2,7 @@ package com.xy.springbootvue.config;
 
 import com.alibaba.fastjson.JSON;
 import com.xy.springbootvue.pojo.OperationLog;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,27 +17,26 @@ import javax.servlet.http.HttpServletRequest;
 
 @Aspect
 @Component
+@Slf4j
 public class RequestLogAspect {
   private ThreadLocal<OperationLog> logThreadLocal = new ThreadLocal<>();
   //拦截web下所有方法
   @Pointcut("execution(* com.xy.springbootvue.web..*.*(..))")
   public void pointcut() {
-    System.out.println("拦截请求start");
+    System.out.println("拦截请求start -->");
   }
 
   @Before("pointcut()")
   public void doBefore(JoinPoint joinPoint) {
-
-    ServletRequestAttributes attributes =
-        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
     HttpServletRequest request = attributes.getRequest();
     String beanName = joinPoint.getSignature().getDeclaringTypeName();
     String methodName = joinPoint.getSignature().getName();
     String uri = request.getRequestURI();
     //get方法不记录日志
-    if ("GET".equals(request.getMethod())) {
-      return;
-    }
+//    if ("GET".equals(request.getMethod())) {
+//      return;
+//    }
     //请求参数
     Object[] paramsArray = joinPoint.getArgs();
 
@@ -57,6 +57,7 @@ public class RequestLogAspect {
       OperationLog optLog = logThreadLocal.get();
       if (null != optLog) {
         optLog.setResponseData(JSON.toJSONString(result));
+        log.info("{}",optLog);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -68,7 +69,6 @@ public class RequestLogAspect {
 
   /**
    * 请求参数拼装
-   *
    * @param paramsArray
    * @return
    */
@@ -76,8 +76,8 @@ public class RequestLogAspect {
     String params = "";
     if (paramsArray != null && paramsArray.length > 0) {
       for (int i = 0; i < paramsArray.length; i++) {
-        Object jsonObj = JSON.toJSON(paramsArray[i]);
-        params += jsonObj.toString() + " ";
+//        Object jsonObj = JSON.toJSON(paramsArray[i]);
+//        params += jsonObj.toString() + " ";
       }
     }
     return params.trim();

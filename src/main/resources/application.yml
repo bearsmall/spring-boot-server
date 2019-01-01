@@ -2,6 +2,7 @@ server:
   port: 8082
 
 prop:
+  #压缩文件上传地址、压缩文件解压地址
   upload-zip-folder: download/zip
   upload-unzip-folder: download/unzip
 
@@ -12,12 +13,12 @@ spring:
   aop:
     proxy-target-class: true
 
-  #DATABASE CONFIG 注意这里连得是mysql
+  #DATABASE CONFIG 注意这里连的是mysql
   datasource:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
       username: root
-      password: cert123
+      password: xy196456
       url: jdbc:mysql://localhost:3306/componentvue?serverTimezone=GMT%2B8
       initial-size: 1
       max-active: 20
@@ -148,5 +149,4 @@ mybatis-plus:
     cache-enabled: false
 
 #logging
-#logging:
-#  level: warn
+debug: true

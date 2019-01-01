@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/projecttask")
-public class ProjecttaskController {
+public class ProjectTaskController {
 
     @Autowired
     private IProjecttaskService projecttaskService;
@@ -30,12 +30,6 @@ public class ProjecttaskController {
     @RequestMapping("/all")
     public List<Projecttask> getAll(){
         return projecttaskService.selectList(null);
-    }
-
-    @PostMapping("/item")
-    public OperationLog item(@RequestBody OperationLog operationLog){
-        System.out.println(operationLog);
-        return operationLog;
     }
 
 }

@@ -1,8 +1,10 @@
 package com.xy.springbootvue.task;
 
+import com.xy.springbootvue.entity.Javadependency;
 import com.xy.springbootvue.entity.Projecttask;
 import com.xy.springbootvue.parser.maven.MavenParser;
 import com.xy.springbootvue.parser.maven.item.JavaDependency;
+import com.xy.springbootvue.service.IJavadependencyService;
 import com.xy.springbootvue.service.IProjecttaskService;
 
 import java.util.Date;
@@ -12,11 +14,13 @@ public class ParseTask implements Runnable{
     private String fileName;
     private String path;
     private IProjecttaskService projecttaskService;
+    private IJavadependencyService javadependencyService;
 
-    public ParseTask(String fileName, String path, IProjecttaskService projecttaskService) {
+    public ParseTask(String fileName, String path, IProjecttaskService projecttaskService, IJavadependencyService javadependencyService) {
         this.fileName = fileName;
         this.path = path;
         this.projecttaskService = projecttaskService;
+        this.javadependencyService = javadependencyService;
     }
 
     public String getFileName() {
@@ -43,6 +47,14 @@ public class ParseTask implements Runnable{
         this.projecttaskService = projecttaskService;
     }
 
+    public IJavadependencyService getJavadependencyService() {
+        return javadependencyService;
+    }
+
+    public void setJavadependencyService(IJavadependencyService javadependencyService) {
+        this.javadependencyService = javadependencyService;
+    }
+
     @Override
     public void run() {
         Projecttask projecttask = new Projecttask();
@@ -59,6 +71,12 @@ public class ParseTask implements Runnable{
         Set<JavaDependency> jds = mavenParser.getJavaDependencySet();
         for(JavaDependency j:jds){
             System.out.println(j.getGroupId()+"/"+j.getArtifactId()+"/"+j.getVersion());
+            Javadependency javadependency = new Javadependency();
+            javadependency.setArtifactid(j.getArtifactId());
+            javadependency.setGroupid(j.getGroupId());
+            javadependency.setVersion(j.getVersion());
+            javadependency.setProjectId(projecttask.getId());
+            javadependencyService.insert(javadependency);
         }
         projecttask.setCheck_end_time(new Date());
         projecttaskService.insertOrUpdate(projecttask);
