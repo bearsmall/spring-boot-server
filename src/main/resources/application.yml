@@ -18,8 +18,8 @@ spring:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
       username: root
-      password: xy196456
-      url: jdbc:mysql://localhost:3306/componentvue?serverTimezone=GMT%2B8
+      password: cert123
+      url: jdbc:mysql://10.103.245.220:3306/componentvue?serverTimezone=GMT%2B8
       initial-size: 1
       max-active: 20
       min-idle: 1
