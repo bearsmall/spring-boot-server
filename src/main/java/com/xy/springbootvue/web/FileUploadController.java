@@ -2,6 +2,7 @@ package com.xy.springbootvue.web;
 
 import com.xy.springbootvue.service.IJavadependencyService;
 import com.xy.springbootvue.service.IProjecttaskService;
+import com.xy.springbootvue.service.ISnykflawService;
 import com.xy.springbootvue.task.ParseTask;
 import com.xy.springbootvue.util.ZipUtils;
 import org.slf4j.Logger;
@@ -39,6 +40,8 @@ public class FileUploadController {
     private IProjecttaskService projecttaskService;
     @Autowired
     private IJavadependencyService javadependencyService;
+    @Autowired
+    private ISnykflawService snykflawService;
 
     @PostMapping("/singlefile")
     public Object singleFileUpload(MultipartFile file) {
@@ -80,7 +83,7 @@ public class FileUploadController {
             }
             code = "file upload success!";
             logger.debug(code);
-            new Thread(new ParseTask(file.getOriginalFilename(),unZipPath,projecttaskService,javadependencyService)).start();
+            new Thread(new ParseTask(file.getOriginalFilename(),unZipPath,projecttaskService,javadependencyService,snykflawService)).start();
         } catch (IOException e) {
             code = e.getMessage();
             logger.error(code);

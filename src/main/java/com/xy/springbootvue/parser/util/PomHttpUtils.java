@@ -15,7 +15,7 @@ public class PomHttpUtils {
 //            "https://maven.atlassian.com/content/repositories/atlassian-public/",
 //            "https://repository.jboss.org/nexus/content/repositories/releases/"
     };         //MAVEN中央仓库远程地址
-    public static String MAVEN_CENTER_LOCAL = "\\home\\cert\\";                                  //MAVEN中央本地POM文件存储路径（缓存）
+    public static String MAVEN_CENTER_LOCAL = "D:\\cert\\";                                  //MAVEN中央本地POM文件存储路径（缓存）
 
     /**
      * 下载pom文件
