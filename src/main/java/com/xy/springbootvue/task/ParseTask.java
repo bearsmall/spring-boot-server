@@ -1,7 +1,5 @@
 package com.xy.springbootvue.task;
 
-import com.baomidou.mybatisplus.mapper.Condition;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.xy.springbootvue.entity.Javadependency;
 import com.xy.springbootvue.entity.Projecttask;
 import com.xy.springbootvue.entity.Snykflaw;
@@ -83,20 +81,21 @@ public class ParseTask implements Runnable{
                 if(gaid.equals(snykflaw.getGaid())){
                     if(snykflaw.getVersion()!=null||j.getVersion()!=null) {
                         if (versionContains(snykflaw.getVersion(), j.getVersion())) {
-                            System.out.println(j.getGroupId() + "/" + j.getArtifactId() + "/" + j.getVersion());
-                            System.out.println("affected:");
-                            System.out.println(snykflaw.getId() + ":" + snykflaw.getGaid() + ":" + snykflaw.getVersion());
+                            System.out.println("感染snyk漏洞的第三方库："+j.getGroupId() + "/" + j.getArtifactId() + "/" + j.getVersion());
+                            System.out.println("漏洞危险等级："+snykflaw.getLevel());
+                            System.out.println("漏洞描述："+snykflaw.getDescription());
+                            System.out.println("参考：https://snyk.io/"+snykflaw.getUrl());
+
+                            Javadependency javadependency = new Javadependency();
+                            javadependency.setArtifactid(j.getArtifactId());
+                            javadependency.setGroupid(j.getGroupId());
+                            javadependency.setVersion(j.getVersion());
+                            javadependency.setProjectId(projecttask.getId());
+                            javadependencyService.insert(javadependency);
                         }
                     }
                 }
             }
-//            System.out.println(j.getGroupId()+"/"+j.getArtifactId()+"/"+j.getVersion());
-//            Javadependency javadependency = new Javadependency();
-//            javadependency.setArtifactid(j.getArtifactId());
-//            javadependency.setGroupid(j.getGroupId());
-//            javadependency.setVersion(j.getVersion());
-//            javadependency.setProjectId(projecttask.getId());
-//            javadependencyService.insert(javadependency);
         }
         projecttask.setCheck_end_time(new Date());
         projecttaskService.insertOrUpdate(projecttask);
